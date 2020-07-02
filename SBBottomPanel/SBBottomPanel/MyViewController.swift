@@ -12,17 +12,18 @@ class MyViewController: UIViewController, SBBottomPanelViewControllerDelegate {
 
     private var bottomPanel: SBBottomPanelViewController?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
 
-        setUpBottomPanel()
+        if bottomPanel == nil {
+            setUpBottomPanel()
+        }
+
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedView(_:))))
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.showBottomPanel()
-        }
+    @objc private func tappedView(_ sender: UITapGestureRecognizer) {
+        showBottomPanel()
     }
 
     private func setUpBottomPanel() {
